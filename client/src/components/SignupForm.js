@@ -11,6 +11,7 @@ const SignupForm = () => {
   const [validated] = useState(false);
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   const [addUser] = useMutation(ADD_USER);
 
@@ -41,6 +42,17 @@ const SignupForm = () => {
       Auth.login(data.addUser.token);
     } catch (err) {
       console.error(err);
+      if (err.message.includes('E11000 duplicate key error collection')) {
+        if (err.message.includes('email_1')) {
+          setAlertMessage('Email already used. Please try another one.');
+        } else if (err.message.includes('username_1')) {
+          setAlertMessage('Username already used. Please try another one.');
+        } else {
+          setAlertMessage('Duplicate field error. Please check your input.');
+        }
+      } else {
+        setAlertMessage('Something went wrong with your signup!');
+      }
       setShowAlert(true);
     }
 
@@ -57,7 +69,7 @@ const SignupForm = () => {
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
         {/* show alert if server response is bad */}
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
-          Something went wrong with your signup!
+          {alertMessage}
         </Alert>
 
         <Form.Group>
