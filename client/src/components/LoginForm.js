@@ -1,8 +1,8 @@
-// see SignupForm.js for comments
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
+import { Link } from 'react-router-dom';
 
 import Auth from '../utils/auth';
 
@@ -20,7 +20,6 @@ const LoginForm = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     
-
     // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -29,9 +28,7 @@ const LoginForm = () => {
     }
 
     try {
-      const { data } = await login( 
-        {variables : { ...userFormData }, 
-      });
+      const { data } = await login({ variables: { ...userFormData } });
       Auth.login(data.login.token);
     } catch (err) {
       console.error(err);
@@ -43,6 +40,10 @@ const LoginForm = () => {
       email: '',
       password: '',
     });
+  };
+
+  const handleForgotPassword = () => {
+    alert("Forgot password clicked");
   };
 
   return (
@@ -76,13 +77,19 @@ const LoginForm = () => {
           />
           <Form.Control.Feedback type='invalid'>Password is required!</Form.Control.Feedback>
         </Form.Group>
-        <Button
-          disabled={!(userFormData.email && userFormData.password)}
-          type='submit'
-          // variant='success'
-          className='login-signup-button'>
-          Submit
-        </Button>
+        <div className="form-footer">
+          <Button
+            disabled={!(userFormData.email && userFormData.password)}
+            type='submit'
+            className='login-signup-button'>
+            Submit
+          </Button>
+          <Button
+            onClick={handleForgotPassword}
+            className='forgot-password-button'>
+            Forgot Password?
+          </Button>
+        </div>
       </Form>
     </>
   );
