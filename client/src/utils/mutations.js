@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client";
+import { useParams } from 'react-router-dom';
 
 export const LOGIN_USER = gql`
   mutation login($email: String!, $password: String!) {
@@ -68,5 +69,10 @@ export const DELETE_TRANSACTION = gql`
       amount
       description
     }
+  }
+`;
+export const VERIFY_EMAIL = gql`
+  mutation verifyEmail($token: String!) {
+    verifyEmail(token: $token)
   }
 `;

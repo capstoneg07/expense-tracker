@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { ADD_USER } from '../utils/mutations';
 import { useMutation } from '@apollo/client';
-import Auth from '../utils/auth';
+// import Auth from '../utils/auth';
 
 const SignupForm = () => {
   // set initial form state
@@ -11,7 +12,9 @@ const SignupForm = () => {
   const [validated] = useState(false);
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
-
+  const [alertMessage, setAlertMessage] = useState('');
+  const [infoMessage, setInfoMessage] = useState('');
+  const navigate = useNavigate();
   const [addUser] = useMutation(ADD_USER);
 
   const handleInputChange = (event) => {
@@ -37,18 +40,36 @@ const SignupForm = () => {
       if (!data) {
         throw new Error('something went wrong!');
       }
-
-      Auth.login(data.addUser.token);
+      setInfoMessage('Sign up successful! Please check your email for verification.');
+      
+      // navigate('/verify-email/:token');
+      setUserFormData({
+        username: '',
+        email: '',
+        password: '',
+      });
+      // Auth.login(data.addUser.token);
     } catch (err) {
       console.error(err);
+      if (err.message.includes('E11000 duplicate key error collection')) {
+        if (err.message.includes('email_1')) {
+          setAlertMessage('Email already used. Please try another one.');
+        } else if (err.message.includes('username_1')) {
+          setAlertMessage('Username already used. Please try another one.');
+        } else {
+          setAlertMessage('Duplicate field error. Please check your input.');
+        }
+      } else {
+        setAlertMessage('Something went wrong with your signup!');
+      }
       setShowAlert(true);
     }
 
-    setUserFormData({
-      username: '',
-      email: '',
-      password: '',
-    });
+    // setUserFormData({
+    //   username: '',
+    //   email: '',
+    //   password: '',
+    // });
   };
 
   return (
@@ -57,9 +78,13 @@ const SignupForm = () => {
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
         {/* show alert if server response is bad */}
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
-          Something went wrong with your signup!
+          {alertMessage}
         </Alert>
-
+        {infoMessage && (
+          <Alert variant='success'>
+            {infoMessage}
+          </Alert>
+        )}
         <Form.Group>
           <Form.Label htmlFor='username'>Username</Form.Label>
           <Form.Control
