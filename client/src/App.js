@@ -9,6 +9,7 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
+import VerifyEmail from './components/VerifyEmail';
 // import Transactions from "./pages/Transactions";
 // import TransactionForm from "./components/TransactionForm";
 // import Analysis from "./pages/Analysis";
@@ -46,6 +47,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/verify-email/:token" element={<VerifyEmail />} />
             {/* <Route
               path="/transactions"
               element={<Transactions transactions={transactions} setTransactions={setTransactions} />}
@@ -60,6 +62,7 @@ function App() {
               path="/analysis"
               element={<Analysis transactions={transactions} setTransactions={setTransactions} />}
             /> */}
+             
             <Route
               path="*"
               element={<h1 className="display-2">Wrong page!</h1>}

@@ -6,6 +6,7 @@ const typeDefs = gql`
     username: String!
     email: String!
     transactions: [Transaction]
+    isVerified: Boolean!
   }
   type Transaction {
     _id: ID
@@ -34,6 +35,7 @@ const typeDefs = gql`
       description: String!
     ) : Transaction
     deleteTransaction(transactionId: ID!): Transaction
+    verifyEmail(token: String!): String
   }
 `;
 

@@ -24,6 +24,13 @@ const userSchema = new Schema(
         ref: "Transaction",
       },
     ],
+    isVerified: {
+      type: Boolean,
+      default: true,
+    },
+    verificationToken: {
+      type: String,
+    },
   },
   {
     toJSON: {
