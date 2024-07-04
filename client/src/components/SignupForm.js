@@ -51,16 +51,12 @@ const SignupForm = () => {
       // Auth.login(data.addUser.token);
     } catch (err) {
       console.error(err);
-      if (err.message.includes('E11000 duplicate key error collection')) {
-        if (err.message.includes('email_1')) {
-          setAlertMessage('Email already used. Please try another one.');
-        } else if (err.message.includes('username_1')) {
-          setAlertMessage('Username already used. Please try another one.');
-        } else {
-          setAlertMessage('Duplicate field error. Please check your input.');
-        }
+      if (err.message.includes("Username already used")) {
+        setAlertMessage("Username already used. Please try another one.");
+      } else if (err.message.includes("Email already used")) {
+        setAlertMessage("Email already used. Please try another one.");
       } else {
-        setAlertMessage('Something went wrong with your signup!');
+        setAlertMessage("Something went wrong with your signup!");
       }
       setShowAlert(true);
     }
