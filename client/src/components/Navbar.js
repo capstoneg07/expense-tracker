@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
-
-import Auth from '../utils/auth';
+import Auth from '../utils/auth'; // Import the instance
 
 const AppNavbar = () => {
-  // set modal display state
   const [showModal, setShowModal] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
 
+  useEffect(() => {
+    const isLoggedIn = Auth.loggedIn();
+    console.log("User logged in: ", isLoggedIn);
+
+    if (isLoggedIn) {
+      const profile = Auth.getProfile();
+      console.log("User profile: ", profile);
+      setUserInfo(profile);
+    }
+  }, []);
+
+  console.log("This is User info: ", userInfo);
 
   return (
     <>
@@ -21,11 +32,9 @@ const AppNavbar = () => {
           <Navbar.Toggle aria-controls='navbar' />
           <Navbar.Collapse id='navbar'>
             <Nav className='ml-auto'>
-                
               <Nav.Link eventKey="1" as={Link} to='/'>
                 Home
               </Nav.Link>
-              {/* if user is logged in show and Enter Transactions and Logout */}
               {Auth.loggedIn() ? (
                 <>
                   <Nav.Link eventKey="2" as={Link} to='/transactions'>
@@ -34,6 +43,11 @@ const AppNavbar = () => {
                   <Nav.Link eventKey="3" as={Link} to='/analysis'>
                     Analysis
                   </Nav.Link>
+                  {userInfo && userInfo.data && (
+                    <Nav.Link eventKey="6" as={Link} to='/profile'>
+                      {`Hello, ${userInfo.data.username}`}
+                    </Nav.Link>
+                  )}
                   <Nav.Link eventKey="4" onClick={Auth.logout}>Logout</Nav.Link>
                 </>
               ) : (
@@ -43,13 +57,11 @@ const AppNavbar = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      {/* set modal data up */}
       <Modal
         size='lg'
         show={showModal}
         onHide={() => setShowModal(false)}
         aria-labelledby='signup-modal'>
-        {/* tab container to do either signup or login component */}
         <Tab.Container defaultActiveKey='login'>
           <Modal.Header closeButton>
             <Modal.Title id='signup-modal'>

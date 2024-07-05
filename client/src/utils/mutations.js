@@ -76,3 +76,14 @@ export const VERIFY_EMAIL = gql`
     verifyEmail(token: $token)
   }
 `;
+
+
+export const UPDATE_USER = gql`
+  mutation updateUser($email: String!, $username: String!) {
+    updateUser(email: $email, username: $username) {
+      _id
+      email
+      username
+    }
+  }
+`;

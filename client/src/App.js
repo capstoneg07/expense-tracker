@@ -14,6 +14,8 @@ import VerifyEmail from './components/VerifyEmail';
 // import TransactionForm from "./components/TransactionForm";
 // import Analysis from "./pages/Analysis";
 import Footer from "./components/Footer";
+import Profile from "./components/Profile";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -62,7 +64,7 @@ function App() {
               path="/analysis"
               element={<Analysis transactions={transactions} setTransactions={setTransactions} />}
             /> */}
-             
+             <Route path='/profile'  element={<Profile />}/>
             <Route
               path="*"
               element={<h1 className="display-2">Wrong page!</h1>}

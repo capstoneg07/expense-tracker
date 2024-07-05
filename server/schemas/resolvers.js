@@ -102,10 +102,20 @@ const resolvers = {
         console.error('Error verifying email:', err);
         throw new Error('Error verifying email');
       }
-    }
+    },
+
     
-    
-     
+
+    updateUser: async (parent, { email, username }, context) => {
+      if (context.user) {
+        return await User.findByIdAndUpdate(
+          context.user._id,
+          { email, username },
+          { new: true }
+        );
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    },
      
     
     // add a transaction

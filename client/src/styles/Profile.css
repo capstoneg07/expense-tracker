@@ -1,0 +1,20 @@
+.profile-header {
+    background-color: #68a357; /* Match the green color of your theme */
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .profile-details {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #68a357;
+    border-radius: 0 0 8px 8px;
+  }
+  
+  .profile-details p {
+    font-size: 1.2em;
+    margin: 10px 0;
+  }
+  
