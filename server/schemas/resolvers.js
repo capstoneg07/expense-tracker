@@ -2,6 +2,8 @@ const crypto = require('crypto');
 const { AuthenticationError } = require("apollo-server-express");
 const { User, Transaction } = require("../models");
 const nodemailer = require('nodemailer');
+const bcrypt = require('bcrypt');
+
 const { signToken } = require("../utils/auth");
 
 
@@ -117,7 +119,53 @@ const resolvers = {
       throw new AuthenticationError("You need to be logged in!");
     },
      
-    
+
+
+
+    //Forgot password 
+    forgotPassword: async (parent, { email }) => {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw new AuthenticationError("No user found with this email address");
+      }
+
+      const resetToken = crypto.randomBytes(20).toString('hex');
+      user.resetPasswordToken = resetToken;
+      user.resetPasswordExpires = Date.now() + 3600000; // 1 hour from now
+
+      await user.save();
+
+      const resetUrl = `http://localhost:3000/#/reset-password/${resetToken}`;
+
+      transporter.sendMail({
+        to: user.email,
+        subject: 'Password Reset Request',
+        html: `You requested a password reset. Please click this link to reset your password: <a href="${resetUrl}">${resetUrl}</a>`,
+      });
+
+      return "Password reset email sent";
+    },
+    resetPassword: async (parent, { token, newPassword }) => {
+      const user = await User.findOne({
+        resetPasswordToken: token,
+        resetPasswordExpires: { $gt: Date.now() },
+      });
+
+      if (!user) {
+        throw new AuthenticationError("Password reset token is invalid or has expired");
+      }
+
+      user.password = newPassword;
+      user.resetPasswordToken = null;
+      user.resetPasswordExpires = null;
+
+      await user.save();
+
+      const authToken = signToken(user);
+
+      return { token: authToken, user };
+    },
     // add a transaction
   
     // delete a transaction

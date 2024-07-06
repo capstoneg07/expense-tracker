@@ -31,6 +31,8 @@ const userSchema = new Schema(
     verificationToken: {
       type: String,
     },
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
   },
   {
     toJSON: {
@@ -44,7 +46,6 @@ userSchema.pre("save", async function (next) {
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
   }
-
   next();
 });
 
