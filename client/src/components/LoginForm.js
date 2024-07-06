@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 
 import Auth from '../utils/auth';
+import { FORGOT_PASSWORD } from '../utils/mutations';
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [login] = useMutation(LOGIN_USER);
-
+  const [forgotPassword] = useMutation(FORGOT_PASSWORD);
+  const navigate = useNavigate();
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
@@ -42,10 +44,19 @@ const LoginForm = () => {
     });
   };
 
+  // const handleForgotPassword = async () => {
+  //   try {
+  //     await forgotPassword({ variables: { email: userFormData.email } });
+  //     alert('Password reset email sent');
+  //   } catch (err) {
+  //     console.error(err);
+  //     setShowAlert(true);
+  //   }
+  // };
   const handleForgotPassword = () => {
-    alert("Forgot password clicked");
+    navigate('/forgot-password');
   };
-
+  
   return (
     <>
       <Form noValidate validated={validated} onSubmit={handleFormSubmit}>

@@ -15,6 +15,9 @@ import VerifyEmail from './components/VerifyEmail';
 // import Analysis from "./pages/Analysis";
 import Footer from "./components/Footer";
 import Profile from "./components/Profile";
+import ResetPassword from './components/ResetPassword';
+import ForgotPassword from './components/ForgotPassword';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const httpLink = createHttpLink({
@@ -65,6 +68,8 @@ function App() {
               element={<Analysis transactions={transactions} setTransactions={setTransactions} />}
             /> */}
              <Route path='/profile'  element={<Profile />}/>
+             <Route path="/reset-password/:token" element={<ResetPassword />} />
+             <Route path='/forgot-password'  element={<ForgotPassword />} />
             <Route
               path="*"
               element={<h1 className="display-2">Wrong page!</h1>}
