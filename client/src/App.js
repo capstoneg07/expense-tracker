@@ -10,9 +10,9 @@ import { setContext } from "@apollo/client/link/context";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import VerifyEmail from './components/VerifyEmail';
-// import Transactions from "./pages/Transactions";
-// import TransactionForm from "./components/TransactionForm";
-// import Analysis from "./pages/Analysis";
+import Transactions from "./pages/Transactions";
+import TransactionForm from "./components/TransactionForm";
+import Analysis from "./pages/Analysis";
 import Footer from "./components/Footer";
 import Profile from "./components/Profile";
 import ResetPassword from './components/ResetPassword';
@@ -53,20 +53,20 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/verify-email/:token" element={<VerifyEmail />} />
-            {/* <Route
+            <Route
               path="/transactions"
               element={<Transactions transactions={transactions} setTransactions={setTransactions} />}
-            /> */}
-            {/* <Route
+            /> 
+            <Route
               path="/transactions/add"
               element={
                 <TransactionForm />
               }
-            /> */}
-            {/* <Route
+            /> 
+            <Route
               path="/analysis"
               element={<Analysis transactions={transactions} setTransactions={setTransactions} />}
-            /> */}
+            />
              <Route path='/profile'  element={<Profile />}/>
              <Route path="/reset-password/:token" element={<ResetPassword />} />
              <Route path='/forgot-password'  element={<ForgotPassword />} />
