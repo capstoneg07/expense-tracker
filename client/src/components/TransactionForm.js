@@ -132,7 +132,7 @@ export default function TransactionForm({
             </div>
           </div>
           <div className="form-group">
-            <label htmlFor="amount">Transaction Amount (USD):</label>
+            <label htmlFor="amount">Transaction Amount (CAD):</label>
             <input
               className="form-control"
               id="amount"

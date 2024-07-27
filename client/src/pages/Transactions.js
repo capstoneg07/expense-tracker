@@ -15,8 +15,8 @@ const Transactions = ({ transactions, setTransactions }) => {
   const [transactionFormState, setTransactionFormState] = useState({
     date: "",
     amount: "",
-    highLevelCategory: "Income",
-    category: "Salary",
+    highLevelCategory: "",
+    category: "",
     description: "",
   });
   // uses moment.js to set start of current week starting on sunday formatted MM/DD/YYYY
@@ -139,7 +139,7 @@ const Transactions = ({ transactions, setTransactions }) => {
       return acc;
     }, 0)
 
-    .toLocaleString("en-US", { style: "currency", currency: "USD" });
+    .toLocaleString("en-US", { style: "currency", currency: "CAD" });
 
   const currentWeekSpending = transactionsData
     .reduce((acc, transaction) => {
