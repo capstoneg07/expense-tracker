@@ -35,6 +35,14 @@ const typeDefs = gql`
       description: String!
     ) : Transaction
     deleteTransaction(transactionId: ID!): Transaction
+    updateTransaction(
+      transactionId: ID!
+      date: String
+      amount: Float
+      highLevelCategory: String
+      category: String
+      description: String
+    ): Transaction
     verifyEmail(token: String!): String
     updateUser(email: String!, username: String!): User
     forgotPassword(email: String!): String

@@ -1,10 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, {useEffect , useState, useRef } from "react";
 import "../styles/Transactions.css";
 import dollar from "../images/dollar.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaCalendarAlt } from "react-icons/fa";
 import { Button } from "react-bootstrap";
+import { useMutation } from "@apollo/client";
+import {UPDATE_TRANSACTION } from "../utils/mutations";
 
 export default function TransactionForm({
   setShowTransactionForm,
@@ -15,25 +17,53 @@ export default function TransactionForm({
   setTransactionFormState
 }) {
   
+  const [updateTransaction] = useMutation(UPDATE_TRANSACTION);
   const [errorMessage, setErrorMessage] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const inputRef = useRef(null);
 
+ useEffect(() => {
+    if (transactionFormState.date) {
+      setStartDate(new Date(transactionFormState.date));
+    }
+  }, [transactionFormState.date]);
+
   async function handleSubmit(e) {
     e.preventDefault();
     console.log(transactionFormState);
     try {
-      const { data } = await addTransaction({
-        variables: {
-          date: transactionFormState.date,
-          amount: parseFloat(transactionFormState.amount),
-          highLevelCategory: transactionFormState.highLevelCategory,
-          category: transactionFormState.category,
-          description: transactionFormState.description,
-        },
-      });
+      if (transactionFormState._id) {
+        // If _id exists, update the transaction
+        const { data } = await updateTransaction({
+          variables: {
+            transactionId: transactionFormState._id,
+            date: transactionFormState.date,
+            amount: parseFloat(transactionFormState.amount),
+            highLevelCategory: transactionFormState.highLevelCategory,
+            category: transactionFormState.category,
+            description: transactionFormState.description,
+          },
+        });
+        setTransactions(
+          transactions.map((transaction) =>
+            transaction._id === transactionFormState._id ? data.updateTransaction : transaction
+          )
+        );
+      } else {
+        // If _id does not exist, add a new transaction
+        const { data } = await addTransaction({
+          variables: {
+            date: transactionFormState.date,
+            amount: parseFloat(transactionFormState.amount),
+            highLevelCategory: transactionFormState.highLevelCategory,
+            category: transactionFormState.category,
+            description: transactionFormState.description,
+          },
+        });
 
+        setTransactions([...transactions, data.addTransaction]);
+      }
       setTransactionFormState({
         date: "",
         amount: "",
@@ -42,7 +72,7 @@ export default function TransactionForm({
         description: "",
       });
       setShowTransactionForm(false);
-      setTransactions([...transactions, data.addTransaction]);
+      // setTransactions([...transactions, data.addTransaction]);
     } catch (err) {
       console.error(err);
     }
@@ -52,7 +82,7 @@ export default function TransactionForm({
   function handleDateSelect(date) {
     setTransactionFormState({
       ...transactionFormState,
-      date: date.toLocaleDateString(), // formats string MM/DD/YYYY, but 0 doesn't show, not sure how to apply the date formatting helper
+      date: date.toISOString(), // formats string MM/DD/YYYY, but 0 doesn't show, not sure how to apply the date formatting helper
     });
   }
 
@@ -93,42 +123,23 @@ export default function TransactionForm({
           <img src={dollar} alt="logo pic" className="transaction-pic" />
         </div>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+        <div className="form-group">
             <label htmlFor="date">Transaction Date</label>
             <div className="input-group">
-              <input
-                type="text"
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => {
+                  handleDateSelect(date);
+                  setStartDate(date);
+                }}
+                dateFormat="yyyy-MM-dd" // Make sure the format matches the state
                 className="form-control"
-                id="date"
-                name="date"
-                value={transactionFormState.date}
-                // satisfies requirement of onChange prop where value of input is controlled by component state? found this on stack overflow
-                onChange={() => { }}
-                onClick={handleInputClick}
-                onBlur={handleInputBlur}
-                ref={inputRef}
               />
               <div className="input-group-append">
-                <button
-                  type="button"
-                  className="btn btn-outline-secondary"
-                  onClick={handleInputClick}
-                >
-                  <FaCalendarAlt size={20} />
-                </button>
+                <span className="input-group-text">
+                  <FaCalendarAlt />
+                </span>
               </div>
-              {showDatePicker && (
-                <div className="date-picker-container">
-                  <DatePicker
-                    selected={startDate}
-                    onChange={(date) => {
-                      handleDateSelect(date);
-                      setShowDatePicker(false);
-                    }}
-                    inline
-                  />
-                </div>
-              )}
             </div>
           </div>
           <div className="form-group">
@@ -137,6 +148,7 @@ export default function TransactionForm({
               className="form-control"
               id="amount"
               name="amount"
+              value={transactionFormState.amount}
               onChange={handleChange}
             />
           </div>
@@ -145,6 +157,7 @@ export default function TransactionForm({
             <select
               className="form-control form-select"
               id="highLevelCategory"
+              value={transactionFormState.highLevelCategory}
               onChange={handleChange}
               name="highLevelCategory"
             >
@@ -157,10 +170,12 @@ export default function TransactionForm({
             <select
               className="form-control form-select"
               id="category"
+              value={transactionFormState.category}
               onChange={handleChange}
               name="category"
             >
-              <option value="Housing">Housing</option>
+              <option value="Salary">Salary</option>
+              <option value="Tax return">Tax Return</option>
               <option value="Food-Groceries">Food-Groceries</option>
               <option value="Restaurant/Fast-Food">Restaurant/Fast-Food</option>
               <option value="Transportation">Transportation</option>
@@ -184,16 +199,14 @@ export default function TransactionForm({
               className="form-control"
               id="description"
               rows="3"
+              value={transactionFormState.description}
               onChange={handleChange}
             ></textarea>
           </div>
           <div className="form-group">
             <Button variant="primary" type="submit">
-              Add Transaction
+              {transactionFormState._id ? "Update Transaction" : "Add Transaction"}
             </Button>
-            {errorMessage ? (
-              <p className="error-message">{errorMessage}</p>
-            ) : null}
           </div>
         </form>
       </div>

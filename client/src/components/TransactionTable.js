@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "../styles/Transactions.css";
+import moment from "moment";
 import { formatDate, formatAmountDecimal } from "../utils/helpers.js";
 import Auth from "../utils/auth";
-import { GoTrash } from 'react-icons/go';
-
+import { GoPencil , GoTrash } from "react-icons/go";
 
 const TransactionTable = ({
   data,
@@ -11,12 +11,26 @@ const TransactionTable = ({
   deleteTransaction,
   transactions,
   setTransactions,
+  setShowTransactionForm,
+  setTransactionFormState
 }) => {
   const [sortOption, setSortOption] = useState("date");
 
   if (loading) {
     return <div>Loading...</div>;
   }
+  const handleEditTransaction = (transaction) => {
+    console.log("Editing transaction:", transaction); // Log the transaction data
+    setTransactionFormState({
+      date: moment(transaction.date).toISOString(), // Ensure correct date format
+      amount: transaction.amount,
+      highLevelCategory: transaction.highLevelCategory,
+      category: transaction.category,
+      description: transaction.description,
+      _id: transaction._id
+    });
+    setShowTransactionForm(true);
+  };
 
   // create function that accepts the transactions's mongo _id value as param and deletes the transaction from the database
   const handleDeleteTransaction = async (e) => {
@@ -121,9 +135,16 @@ const TransactionTable = ({
                   <button
                     className="btn"
                     id={transaction._id}
+                    onClick={() => handleEditTransaction(transaction)}
+                  >
+                    <GoPencil />
+                  </button>
+                  <button
+                    className="btn"
+                    id={transaction._id}
                     onClick={handleDeleteTransaction}
                   >
-                    <GoTrash  />
+                    <GoTrash />
                   </button>
                 </td>
               </tr>

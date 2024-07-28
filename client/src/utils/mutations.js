@@ -106,3 +106,29 @@ export const RESET_PASSWORD = gql`
     }
   }
 `;
+export const UPDATE_TRANSACTION = gql`
+  mutation updateTransaction(
+    $transactionId: ID!
+    $date: String
+    $amount: Float
+    $highLevelCategory: String
+    $category: String
+    $description: String
+  ) {
+    updateTransaction(
+      transactionId: $transactionId
+      date: $date
+      amount: $amount
+      highLevelCategory: $highLevelCategory
+      category: $category
+      description: $description
+    ) {
+      _id
+      date
+      amount
+      highLevelCategory
+      category
+      description
+    }
+  }
+`;

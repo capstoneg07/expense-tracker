@@ -15,7 +15,7 @@ const Transactions = ({ transactions, setTransactions }) => {
   const [transactionFormState, setTransactionFormState] = useState({
     date: "",
     amount: "",
-    highLevelCategory: "",
+    highLevelCategory: "Income",
     category: "",
     description: "",
   });
@@ -217,7 +217,9 @@ const Transactions = ({ transactions, setTransactions }) => {
             <div className="modal">
               <Modal show={true} onHide={() => setShowTransactionForm(false)}>
                 <Modal.Header closeButton>
-                  <Modal.Title>Add Transaction</Modal.Title>
+                <Modal.Title>
+                  {transactionFormState._id ? "Edit Transaction" : "Add Transaction"}
+                </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                   <TransactionForm
@@ -243,6 +245,8 @@ const Transactions = ({ transactions, setTransactions }) => {
           deleteTransaction={deleteTransaction}
           transactions={transactions}
           setTransactions={setTransactions}
+          setShowTransactionForm={setShowTransactionForm}
+          setTransactionFormState={setTransactionFormState}
         />
       </div>
     </div>

@@ -218,6 +218,19 @@ const resolvers = {
         return transaction;
       }
       throw new AuthenticationError('You need to be logged in!');
+    },
+
+    updateTransaction: async (parent, { transactionId, date, amount, highLevelCategory, category, description }, context) => {
+      if (context.user) {
+        const updatedTransaction = await Transaction.findByIdAndUpdate(
+          transactionId,
+          { date, amount, highLevelCategory, category, description },
+          { new: true }
+        );
+
+        return updatedTransaction;
+      }
+      throw new AuthenticationError("You need to be logged in!");
     }
   }
 };
