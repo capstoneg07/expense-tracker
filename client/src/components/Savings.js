@@ -96,14 +96,14 @@ export default function Savings({ currentMonthHighLevel }) {
       <div className="savings blue-text">
         <h2>Save More!</h2>
         <h5 className="mb-3 blue-text">
-          Your total non-essential spending for {currentMonthYear} is{" "}
+          Your total spending for {currentMonthYear} is{" "}
           <span className="red-text">
             ${formatAmount(nonEssentialSpending)}
           </span>
           .
         </h5>
         <h5 className="mb-3 blue-text">
-          If you were to save 10% of your non-essential expenses, that would be{" "}
+          If you were to save 10% of your expenses, that would be{" "}
           <span className="red-text">${formatAmount(PMT)}</span> per month.
         </h5>
         <h5 className="blue-text">
@@ -117,7 +117,7 @@ export default function Savings({ currentMonthHighLevel }) {
         <h6>Find out how much you could save over the long term!</h6>
         <form className="calculator-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="initialAmount">Initial Amount (USD):</label>
+            <label htmlFor="initialAmount">Initial Amount:</label>
             <input
               className="form-control"
               id="initialAmount"
@@ -128,7 +128,7 @@ export default function Savings({ currentMonthHighLevel }) {
 
           <div className="form-group">
             <label htmlFor="monthlyContribution">
-              Monthly Contribution Amount (USD):
+              Monthly Contribution Amount:
             </label>
             <input
               className="form-control"
