@@ -252,7 +252,7 @@ export default function Analysis({ transactions, setTransactions }) {
               </div>
             </div>
           </div>
-          {/* <div className="row">
+          { <div className="row">
             <div className="card card-chart ml-5">
               <div className="card-header card-chart-header">
                 <h3 className="chart-title text-center text-light">{selectedTimePeriod}</h3>
@@ -276,12 +276,12 @@ export default function Analysis({ transactions, setTransactions }) {
                 ></Pie>
               </div>
             </div>
-          </div> */}
+          </div> }
           
         </div>
-        {/* <div className="col col-sm-12 col-lg-6 mt-5">
+        { <div className="col col-sm-12 col-lg-6 mt-5">
           <Savings currentMonthHighLevel={currentMonthHighLevel} />
-        </div> */}
+        </div> }
         <div>{/* <TransactionTable/> */}</div>
       </div>
     </div>
