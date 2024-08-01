@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ME, QUERY_TRANSACTIONS } from "../utils/queries";
@@ -16,7 +17,7 @@ const Transactions = ({ transactions, setTransactions }) => {
     date: "",
     amount: "",
     highLevelCategory: "Income",
-    category: "",
+    category: "Salary",
     description: "",
   });
   // uses moment.js to set start of current week starting on sunday formatted MM/DD/YYYY

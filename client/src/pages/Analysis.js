@@ -148,7 +148,9 @@ export default function Analysis({ transactions, setTransactions }) {
 
   const categoryData = {
     labels: [
-      "Housing",
+
+      "Salary",
+      "Tax Return",
       "Food-Groceries",
       "Restaurant/Fast-Food",
       "Transportation",
@@ -162,9 +164,10 @@ export default function Analysis({ transactions, setTransactions }) {
     ],
     datasets: [
       {
-        label: "Spending by Category",
+        label: "Amount by Category",
         data: [
-          sumCategory.find((x) => x.category === "Housing")?.amount || 0,
+          sumCategory.find((x) => x.category === "Salary")?.amount || 0,
+          sumCategory.find((x) => x.category === "Tax return")?.amount || 0,
           sumCategory.find((x) => x.category === "Food-Groceries")?.amount || 0,
           sumCategory.find((x) => x.category === "Restaurant/Fast-Food")?.amount || 0,
           sumCategory.find((x) => x.category === "Transportation")?.amount || 0,
@@ -180,9 +183,11 @@ export default function Analysis({ transactions, setTransactions }) {
           sumCategory.find((x) => x.category === "Charity")?.amount || 0,
         ],
         backgroundColor: [
+          "cyan",
+          "black",
           "coral",
           "lightblue",
-          "gray",
+          "pink",
           "white",
           "purple",
           "yellow",
