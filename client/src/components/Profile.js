@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Auth from '../utils/auth'; // Ensure this path is correct for your project
-import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import '../styles/Profile.css'; // Ensure this path is correct
 import { useMutation } from '@apollo/client';
 import { UPDATE_USER } from '../utils/mutations'; // Ensure this path is correct
@@ -15,6 +15,8 @@ const Profile = () => {
       },
     },
   });
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
 
   useEffect(() => {
     const isLoggedIn = Auth.loggedIn();
@@ -26,7 +28,6 @@ const Profile = () => {
   }, []);
 
   const handleChange = (event) => {
-    console.log("in Submit form")
     const { name, value } = event.target;
     setFormState({
       ...formState,
@@ -41,10 +42,12 @@ const Profile = () => {
         variables: { ...formState },
       });
       setUserInfo(data.updateUser);
-      alert('Profile updated successfully!');
+      setAlertMessage('Profile updated successfully!');
+      setShowAlert(true);
     } catch (e) {
       console.error(e);
-      alert('An error occurred while updating your profile.');
+      setAlertMessage('An error occurred while updating your profile.');
+      setShowAlert(true);
     }
   };
 
@@ -53,12 +56,17 @@ const Profile = () => {
   }
 
   return (
-    <Container>
+    <Container className="profile-container">
       <Row className="justify-content-md-center mt-5">
         <Col md="8">
-          <div className="profile-header">
+          <div className="profile-header text-center mb-4">
             <h1>Profile Page</h1>
           </div>
+          {showAlert && (
+            <Alert variant={alertMessage.includes('successfully') ? 'success' : 'danger'} onClose={() => setShowAlert(false)} dismissible>
+              {alertMessage}
+            </Alert>
+          )}
           <div className="profile-details">
             <Form onSubmit={handleFormSubmit}>
               <Form.Group controlId="formEmail">
@@ -81,7 +89,7 @@ const Profile = () => {
                   onChange={handleChange}
                 />
               </Form.Group>
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" className="update-button">
                 Update
               </Button>
             </Form>

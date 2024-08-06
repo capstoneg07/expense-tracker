@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_ME, QUERY_TRANSACTIONS } from "../utils/queries";
@@ -8,11 +7,67 @@ import moment from "moment";
 import { Modal } from "react-bootstrap";
 import TransactionTable from "../components/TransactionTable";
 import Auth from "../utils/auth";
+import styled from 'styled-components';
 import "../styles/Transactions.css";
+
+const TransactionsContainer = styled.div`
+  padding: 2rem;
+  background-color: #f4f6f8;
+  min-height: 100vh;
+`;
+
+const Header = styled.h1`
+  text-align: center;
+  margin: 2rem 0;
+  color: #4a90e2;
+`;
+
+const SpendingCardContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+`;
+
+const SpendingCard = styled.div`
+  flex: 1;
+  margin: 1rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  min-width: 250px;
+`;
+
+const SpendingTitle = styled.h4`
+  color: #333;
+  margin-bottom: 1rem;
+`;
+
+const SpendingAmount = styled.p`
+  color: #e74c3c;
+  font-size: 1.25rem;
+  font-weight: bold;
+`;
+
+const AddTransactionButton = styled.button`
+  display: block;
+  margin: 2rem auto;
+  padding: 0.75rem 1.5rem;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: #357ab7;
+  }
+`;
 
 const Transactions = ({ transactions, setTransactions }) => {
   const [showTransactionForm, setShowTransactionForm] = useState(false);
-  // const [transactionList, setTransactionList] = useState([]);
   const [transactionFormState, setTransactionFormState] = useState({
     date: "",
     amount: "",
@@ -20,15 +75,13 @@ const Transactions = ({ transactions, setTransactions }) => {
     category: "Salary",
     description: "",
   });
-  // uses moment.js to set start of current week starting on sunday formatted MM/DD/YYYY
+
   const [startDate, setStartDate] = useState(
     moment().startOf("week").format("L")
   );
 
-  // uses moment.js to set end of current week ending on saturday formatted MM/DD/YYYY
   const [endDate, setEndDate] = useState(moment().endOf("week").format("L"));
 
-  // query transaction data then destructure the transactions from all the data
   const { data, loading, refetch } = useQuery(QUERY_ME);
 
   const [deleteTransaction] = useMutation(DELETE_TRANSACTION, {
@@ -59,11 +112,9 @@ const Transactions = ({ transactions, setTransactions }) => {
           },
         });
       } catch (e) {
-        console.log("error with mutation!");
-        console.error(e);
+        console.error("error with mutation!", e);
       }
       
-      console.log("updated cache:", cache.data.data);
       refetch();
     },
   });
@@ -91,15 +142,9 @@ const Transactions = ({ transactions, setTransactions }) => {
             },
           },
         });
-
       } catch (e) {
-        console.log("error with mutation!");
-        console.error(e);
+        console.error("error with mutation!", e);
       }
-      
-      
-      
-      console.log("updated cache:", cache.data.data);
     },
     variables: {
       date: transactionFormState.date,
@@ -116,7 +161,6 @@ const Transactions = ({ transactions, setTransactions }) => {
       setTransactions(data?.me?.transactions);
     }
   }, [data]);
-
 
   if (loading) {
     return <div>Loading...</div>;
@@ -136,23 +180,18 @@ const Transactions = ({ transactions, setTransactions }) => {
       if (moment(transaction.date).format("L") === currentDate) {
         return acc + transaction.amount;
       }
-
       return acc;
     }, 0)
-
     .toLocaleString("en-US", { style: "currency", currency: "CAD" });
 
   const currentWeekSpending = transactionsData
     .reduce((acc, transaction) => {
       const transactionDate = moment(transaction.date).format("L");
-
       if (transactionDate >= startDate && transactionDate <= endDate) {
         return acc + transaction.amount;
       }
-
       return acc;
     }, 0)
-
     .toLocaleString("en-US", { style: "currency", currency: "USD" });
 
   const currentMonthSpending = transactionsData
@@ -160,85 +199,59 @@ const Transactions = ({ transactions, setTransactions }) => {
       if (moment(transaction.date).format("M") === currentMonth) {
         return acc + transaction.amount;
       }
-
       return acc;
     }, 0)
-
     .toLocaleString("en-US", { style: "currency", currency: "USD" });
 
-  // come up with calculations here
-
   return (
-    <div className="container transaction-page">
-      <h1 className="mt-5 mb-5 expense-tracker-header">
-        Welcome to your Expense Tracker!
-      </h1>
+    <TransactionsContainer>
+      <Header>Welcome to your Expense Tracker!</Header>
 
-      {/* <div className="row">
-        <div className="col">
-          <div className="card">
-            <div className="card-body text-dark">
-              <h4>Spending for {currentDate}:</h4>
-              <p className="text-danger spending">{todaySpending}</p>
-            </div>
-          </div>
-        </div>
+      <SpendingCardContainer>
+        <SpendingCard>
+          <SpendingTitle>Spending for {currentDate}:</SpendingTitle>
+          <SpendingAmount>{todaySpending}</SpendingAmount>
+        </SpendingCard>
 
-        <div className="col">
-          <div className="card">
-            <div className="card-body text-dark">
-              <h4>
-                Expenditure for Current Week ({startDate} - {endDate}):
-              </h4>
-              <p className="text-danger spending">{currentWeekSpending}</p>
-            </div>
-          </div>
-        </div>
+        <SpendingCard>
+          <SpendingTitle>
+            Expenditure for Current Week ({startDate} - {endDate}):
+          </SpendingTitle>
+          <SpendingAmount>{currentWeekSpending}</SpendingAmount>
+        </SpendingCard>
 
-        <div className="col">
-          <div className="card">
-            <div className="card-body text-dark">
-              <h4>Expenditure for Current Month:</h4>
-              <p className="text-danger spending">{currentMonthSpending}</p>
-            </div>
-          </div>
-        </div>
-      </div> */}
-      
-      <div className="mt-5 text-center">
-      <h1 id="transaction-table-header">Your Transactions</h1>
-        <button
-          className="btn add-transaction-button"
-          onClick={() => setShowTransactionForm(!showTransactionForm)}
-        >
-          Add Transaction
-        </button>
-        {showTransactionForm && (
-          <div className="modal-background">
-            <div className="modal">
-              <Modal show={true} onHide={() => setShowTransactionForm(false)}>
-                <Modal.Header closeButton>
-                <Modal.Title>
-                  {transactionFormState._id ? "Edit Transaction" : "Add Transaction"}
-                </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <TransactionForm
-                    setShowTransactionForm={setShowTransactionForm}
-                    // addTransactionList={addTransactionList}
-                    addTransaction={addTransaction}
-                    transactions={transactions}
-                    setTransactions={setTransactions}
-                    transactionFormState={transactionFormState}
-                    setTransactionFormState={setTransactionFormState}
-                  />
-                </Modal.Body>
-              </Modal>
-            </div>
-          </div>
-        )}
-      </div>
-      
+        <SpendingCard>
+          <SpendingTitle>Expenditure for Current Month:</SpendingTitle>
+          <SpendingAmount>{currentMonthSpending}</SpendingAmount>
+        </SpendingCard>
+      </SpendingCardContainer>
+
+      <AddTransactionButton
+        onClick={() => setShowTransactionForm(!showTransactionForm)}
+      >
+        Add Transaction
+      </AddTransactionButton>
+
+      {showTransactionForm && (
+        <Modal show={true} onHide={() => setShowTransactionForm(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              {transactionFormState._id ? "Edit Transaction" : "Add Transaction"}
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <TransactionForm
+              setShowTransactionForm={setShowTransactionForm}
+              addTransaction={addTransaction}
+              transactions={transactions}
+              setTransactions={setTransactions}
+              transactionFormState={transactionFormState}
+              setTransactionFormState={setTransactionFormState}
+            />
+          </Modal.Body>
+        </Modal>
+      )}
+
       <div className="mt-4 d-flex justify-content-center">
         <TransactionTable
           data={data}
@@ -250,7 +263,7 @@ const Transactions = ({ transactions, setTransactions }) => {
           setTransactionFormState={setTransactionFormState}
         />
       </div>
-    </div>
+    </TransactionsContainer>
   );
 };
 

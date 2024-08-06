@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { formatAmount, calculateFutureValue } from "../utils/helpers";
+import "../styles/Savings.css";
 
 export default function Savings({ currentMonthHighLevel }) {
   function getNonEssential() {
@@ -7,7 +8,6 @@ export default function Savings({ currentMonthHighLevel }) {
     for (let i = 0; i < highLevelArr.length; i++) {
       if (highLevelArr[i].highLevelCategory === "Non-Essential") {
         let nonEssentialSpending = Math.round(highLevelArr[i].amount);
-        console.log("Non-Essential: ", nonEssentialSpending);
         return nonEssentialSpending;
       }
     }
@@ -34,11 +34,6 @@ export default function Savings({ currentMonthHighLevel }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    setCalculateFormState({
-      ...calculateFormState,
-      [e.target.name]: e.target.value,
-    });
-    console.log(calculateFormState);
 
     const { initialAmount, monthlyContribution, rate, frequency, years } =
       calculateFormState;
@@ -49,26 +44,16 @@ export default function Savings({ currentMonthHighLevel }) {
       frequency,
       years
     );
-    console.log(calculatedSavings);
     const result = formatAmount(calculatedSavings.toFixed(0));
     document.getElementById("result").innerHTML = `$${result}`;
     return result;
   }
 
   function handleChange(e) {
-    if (!e.target.value.length) {
-      setErrorMessage(`${e.target.name} is required`);
-    } else {
-      setErrorMessage("");
-    }
-
-    if (!errorMessage) {
-      setCalculateFormState({
-        ...calculateFormState,
-        [e.target.name]: e.target.value,
-      });
-      console.log(calculateFormState);
-    }
+    setCalculateFormState({
+      ...calculateFormState,
+      [e.target.name]: e.target.value,
+    });
   }
 
   const monthNames = [
@@ -92,29 +77,29 @@ export default function Savings({ currentMonthHighLevel }) {
   const currentMonthYear = month + " " + year;
 
   return (
-    <div>
-      <div className="savings blue-text">
+    <div className="savings-container">
+      <div className="savings-info">
         <h2>Save More!</h2>
-        <h5 className="mb-3 blue-text">
+        <p>
           Your total spending for {currentMonthYear} is{" "}
-          <span className="red-text">
+          <span className="highlight">
             ${formatAmount(nonEssentialSpending)}
           </span>
           .
-        </h5>
-        <h5 className="mb-3 blue-text">
+        </p>
+        <p>
           If you were to save 10% of your expenses, that would be{" "}
-          <span className="red-text">${formatAmount(PMT)}</span> per month.
-        </h5>
-        <h5 className="blue-text">
+          <span className="highlight">${formatAmount(PMT)}</span> per month.
+        </p>
+        <p>
           If you were to invest those savings at an average 5% return over 10
           years, compounded monthly, you would save{" "}
-          <span className="red-text">${formatAmount(savings.toFixed(0))}</span>
-        </h5>
+          <span className="highlight">${formatAmount(savings.toFixed(0))}</span>
+        </p>
       </div>
-      <div className="calculator-div">
-        <h3 className="form-heading">Compound Interest Calculator</h3>
-        <h6>Find out how much you could save over the long term!</h6>
+      <div className="calculator">
+        <h3 className="calculator-heading">Compound Interest Calculator</h3>
+        <p>Find out how much you could save over the long term!</p>
         <form className="calculator-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="initialAmount">Initial Amount:</label>
@@ -122,10 +107,11 @@ export default function Savings({ currentMonthHighLevel }) {
               className="form-control"
               id="initialAmount"
               name="initialAmount"
-              onBlur={handleChange}
-            ></input>
+              type="number"
+              value={calculateFormState.initialAmount}
+              onChange={handleChange}
+            />
           </div>
-
           <div className="form-group">
             <label htmlFor="monthlyContribution">
               Monthly Contribution Amount:
@@ -134,8 +120,10 @@ export default function Savings({ currentMonthHighLevel }) {
               className="form-control"
               id="monthlyContribution"
               name="monthlyContribution"
-              onBlur={handleChange}
-            ></input>
+              type="number"
+              value={calculateFormState.monthlyContribution}
+              onChange={handleChange}
+            />
           </div>
           <div className="form-group">
             <label htmlFor="rate">
@@ -145,18 +133,23 @@ export default function Savings({ currentMonthHighLevel }) {
               className="form-control"
               id="rate"
               name="rate"
-              onBlur={handleChange}
-            ></input>
+              type="number"
+              value={calculateFormState.rate}
+              onChange={handleChange}
+            />
           </div>
           <div className="form-group">
-            <label htmlFor="frequency">Compunding Frequency:</label>
+            <label htmlFor="frequency">Compounding Frequency:</label>
             <select
-              className="form-control form-select"
+              className="form-control"
               id="frequency"
               name="frequency"
-              onBlur={handleChange}
+              value={calculateFormState.frequency}
+              onChange={handleChange}
             >
-              <option value="" defaultValue></option>
+              <option value="" disabled>
+                Select Frequency
+              </option>
               <option value="1">Annually</option>
               <option value="2">Semi-Annually</option>
               <option value="4">Quarterly</option>
@@ -164,25 +157,23 @@ export default function Savings({ currentMonthHighLevel }) {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="rate">Investment Term (in years)</label>
+            <label htmlFor="years">Investment Term (in years):</label>
             <input
               className="form-control"
               id="years"
               name="years"
-              onBlur={handleChange}
-            ></input>
+              type="number"
+              value={calculateFormState.years}
+              onChange={handleChange}
+            />
           </div>
-
-          <div className="form-group">
-            <button type="submit" className="btnContact btn calc-button">
-              {" "}
-              Calculate
-            </button>
-          </div>
+          <button type="submit" className="btn calculate-btn">
+            Calculate
+          </button>
         </form>
       </div>
-      <div id="result-div">
-        You would save: <span id="result"></span>
+      <div className="result">
+        You would save: <span id="result" className="highlight"></span>
       </div>
     </div>
   );

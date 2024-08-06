@@ -1,20 +1,73 @@
-.profile-header {
-    background-color: #68a357; /* Match the green color of your theme */
-    color: white;
-    padding: 20px;
-    text-align: center;
-    border-radius: 8px 8px 0 0;
+:root {
+  --primary-color: #4a90e2;
+  --secondary-color: #50e3c2;
+  --background-color: #f4f6f8;
+  --text-color: #333;
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+}
+
+.profile-container {
+  background-color: var(--background-color);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  margin-top: 2rem;
+}
+
+.profile-header h1 {
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.profile-details {
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+}
+
+.profile-details .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.profile-details .form-control {
+  border-radius: var(--border-radius);
+  padding: 0.75rem;
+  border: 1px solid var(--primary-color);
+}
+
+.profile-details .form-label {
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.update-button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.update-button:hover {
+  background-color: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 1rem;
   }
-  
+
   .profile-details {
-    background-color: white;
-    padding: 20px;
-    border: 1px solid #68a357;
-    border-radius: 0 0 8px 8px;
+    padding: 1rem;
   }
-  
-  .profile-details p {
-    font-size: 1.2em;
-    margin: 10px 0;
+
+  .update-button {
+    width: 100%;
   }
-  
+}

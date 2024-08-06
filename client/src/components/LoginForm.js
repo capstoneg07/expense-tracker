@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from '../utils/mutations';
-import { Link,useNavigate } from 'react-router-dom';
-
+import { LOGIN_USER, FORGOT_PASSWORD } from '../utils/mutations';
+import { Link, useNavigate } from 'react-router-dom';
 import Auth from '../utils/auth';
-import { FORGOT_PASSWORD } from '../utils/mutations';
+import '../styles/LoginForm.css'; // Ensure this path is correct
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
@@ -14,6 +13,7 @@ const LoginForm = () => {
   const [login] = useMutation(LOGIN_USER);
   const [forgotPassword] = useMutation(FORGOT_PASSWORD);
   const navigate = useNavigate();
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
@@ -21,8 +21,7 @@ const LoginForm = () => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    
-    // check if form has everything (as per react-bootstrap docs)
+
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -44,27 +43,19 @@ const LoginForm = () => {
     });
   };
 
-  // const handleForgotPassword = async () => {
-  //   try {
-  //     await forgotPassword({ variables: { email: userFormData.email } });
-  //     alert('Password reset email sent');
-  //   } catch (err) {
-  //     console.error(err);
-  //     setShowAlert(true);
-  //   }
-  // };
   const handleForgotPassword = () => {
     navigate('/forgot-password');
   };
-  
+
   return (
-    <>
-      <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
+    <div className="login-container">
+      <h1 className="login-title">Login</h1>
+      <Form noValidate validated={validated} onSubmit={handleFormSubmit} className="login-form">
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
           Something went wrong with your login credentials!
         </Alert>
         <Form.Group>
-          <Form.Label htmlFor='email'>Email (you can use 'bill@gmail.com' to test drive with pre-loaded data)</Form.Label>
+          <Form.Label htmlFor='email'>Email</Form.Label>
           <Form.Control
             type='text'
             placeholder='Your email'
@@ -77,7 +68,7 @@ const LoginForm = () => {
         </Form.Group>
 
         <Form.Group>
-          <Form.Label htmlFor='password'>Password (you can use 'password' to test drive with pre-loaded data)</Form.Label>
+          <Form.Label htmlFor='password'>Password</Form.Label>
           <Form.Control
             type='password'
             placeholder='Your password'
@@ -102,7 +93,7 @@ const LoginForm = () => {
           </Button>
         </div>
       </Form>
-    </>
+    </div>
   );
 };
 

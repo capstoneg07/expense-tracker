@@ -3,7 +3,53 @@ import { Link } from 'react-router-dom';
 import { Navbar, Nav, Container, Modal, Tab } from 'react-bootstrap';
 import SignUpForm from './SignupForm';
 import LoginForm from './LoginForm';
-import Auth from '../utils/auth'; // Import the instance
+import Auth from '../utils/auth';
+import styled from 'styled-components';
+
+const StyledNavbar = styled(Navbar)`
+  background-color: #4a90e2;
+  .navbar-brand,
+  .nav-link {
+    color: #fff !important;
+    font-weight: bold;
+  }
+  .nav-link:hover {
+    color: #50e3c2 !important;
+  }
+`;
+
+const StyledModal = styled(Modal)`
+  .modal-content {
+    background-color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .modal-header {
+    background-color: #4a90e2;
+    border-bottom: none;
+    border-radius: 0.5rem 0.5rem 0 0;
+  }
+  .modal-title {
+    color: #fff;
+    font-size: 1.5rem;
+  }
+  .nav-pills .nav-link {
+    background-color: #e0e0e0;
+    color: #333;
+    margin: 0 0.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease-in-out;
+  }
+  .nav-pills .nav-link.active {
+    background-color: #50e3c2;
+    color: #333;
+  }
+  .modal-body {
+    background-color: #f4f6f8;
+    padding: 2rem;
+  }
+`;
 
 const AppNavbar = () => {
   const [showModal, setShowModal] = useState(false);
@@ -24,8 +70,8 @@ const AppNavbar = () => {
 
   return (
     <>
-      <Navbar collapseOnSelect variant='dark' expand='lg' className="navbar">
-        <Container fluid>
+      <StyledNavbar collapseOnSelect variant='dark' expand='lg'>
+        <Container>
           <Navbar.Brand as={Link} to='/'>
             Expense Tracker
           </Navbar.Brand>
@@ -56,8 +102,8 @@ const AppNavbar = () => {
             </Nav>
           </Navbar.Collapse>
         </Container>
-      </Navbar>
-      <Modal
+      </StyledNavbar>
+      <StyledModal
         size='lg'
         show={showModal}
         onHide={() => setShowModal(false)}
@@ -86,7 +132,7 @@ const AppNavbar = () => {
             </Tab.Content>
           </Modal.Body>
         </Tab.Container>
-      </Modal>
+      </StyledModal>
     </>
   );
 };
