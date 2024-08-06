@@ -1,93 +1,147 @@
 :root {
-  --dollar-bill-green: #85bb65; 
-  --text-shadow: 2px 1px black;
+  --primary-color: #4a90e2;
+  --secondary-color: #50e3c2;
+  --background-color: #f4f6f8;
+  --text-color: #333;
+  --error-color: #e74c3c;
+  --table-header-bg: #4a90e2;
+  --table-header-color: #fff;
+  --btn-edit-bg: #4a90e2;
+  --btn-edit-hover-bg: #357ab7;
+  --btn-delete-bg: #e74c3c;
+  --btn-delete-hover-bg: #c0392b;
 }
 
 .transaction-form {
   background: #fff;
   margin: 5% auto;
-  width: 85%;
-  min-height: 50vh;
+  width: 100%;
+  min-height: 60vh;
   border-radius: 10px;
-}
-
-.container h1 {
-  margin-bottom: 15px;
-}
-
-.transaction-form .form-control {
-  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem 4rem;
 }
 
 .transaction-image {
   text-align: center;
+  margin-bottom: 1rem;
 }
 
 .transaction-image img {
-  width: 15%;
-  margin-top: -7%;
+  width: 10%;
 }
 
-.transaction-form form {
-  padding: 14%;
+.form-group {
+  margin-bottom: 1.5rem;
 }
 
-.input-group-append {
-  height: 2.35em;
+.form-control {
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  height: 2.5rem;
+}
+
+.input-group-text {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+}
+
+textarea.form-control {
+  height: auto;
+}
+
+button.submit-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 1rem;
+}
+
+button.submit-button:hover {
+  background-color: var(--secondary-color);
 }
 
 .error-message {
-    color: red;
-    font-size: 1em;
-}
-
-.add-transaction-button {
-  background: var(--dollar-bill-green);
-  color: white;
-  box-shadow: var(--text-shadow);
-}
-
-.add-transaction-button:hover {
-  background: var(--blue);
-  color: white;
-}
-
-.card {
-  background-color: var(--dollar-bill-green);
-  color: white;
-  width: 300px;
-  margin: 5px;
-  text-align: center;
-  box-shadow: var(--text-shadow);
-}
-
-.transaction-category {
-  margin-left: 10px;
-}
-
-.expense-tracker-header {
-  color: var(--dollar-bill-green);
-  text-shadow: var(--text-shadow);
-}
-
-#transaction-table-header {
-  text-align: center;
-  color: var(--dollar-bill-green);
-  text-shadow: var(--text-shadow);
+  color: var(--error-color);
+  font-size: 1em;
+  margin-top: -0.5rem;
 }
 
 .sort-div {
   width: 50%;
-  margin: 15px auto;
+  margin: 1.5rem auto;
   align-items: center;
 }
 
 .sort {
-  color: black;
-  width: 80px;
-  margin-top: 5px;
+  color: var(--text-color);
+  margin-right: 0.5rem;
 }
 
-.spending {
-  font-size: 1.5em;
+.table-responsive {
+  margin-top: 1rem;
+}
+
+.table th {
+  background-color: var(--table-header-bg);
+  color: var(--table-header-color);
+  text-align: center;
+}
+
+.table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.btn-edit {
+  background-color: var(--btn-edit-bg);
+  color: white;
+  border: none;
+  margin-right: 0.5rem;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-edit:hover {
+  background-color: var(--btn-edit-hover-bg);
+}
+
+.btn-delete {
+  background-color: var(--btn-delete-bg);
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-delete:hover {
+  background-color: var(--btn-delete-hover-bg);
+}
+
+@media (max-width: 576px) {
+  .transaction-form {
+    width: 95%;
+    padding: 1rem 2rem;
+  }
+
+  .transaction-image img {
+    width: 20%;
+  }
+
+  .sort-div {
+    width: 90%;
+  }
+
+  .table th, .table td {
+    font-size: 0.875rem;
+  }
 }

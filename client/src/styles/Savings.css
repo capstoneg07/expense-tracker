@@ -1,0 +1,109 @@
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #50e3c2;
+    --background-color: #f4f6f8;
+    --text-color: #333;
+    --highlight-color: #ff4d4d;
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --border-radius: 8px;
+  }
+  
+  .savings-container {
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    margin: 1rem 0;
+    width: 250%;
+  }
+  
+  .savings-info {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
+    box-shadow: var(--card-shadow);
+  }
+  
+  .savings-info h2 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
+  
+  .savings-info p {
+    font-size: 1.1rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+  }
+  
+  .highlight {
+    color: var(--highlight-color);
+    font-weight: bold;
+  }
+  
+  .calculator {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+  }
+  
+  .calculator-heading {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+  }
+  
+  .calculator-form .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .calculator-form label {
+    font-weight: bold;
+    color: var(--text-color);
+  }
+  
+  .calculator-form .form-control {
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+    border: 1px solid var(--primary-color);
+  }
+  
+  .btn.calculate-btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn.calculate-btn:hover {
+    background-color: var(--secondary-color);
+  }
+  
+  .result {
+    margin-top: 2rem;
+    font-size: 1.25rem;
+    text-align: center;
+    color: var(--text-color);
+  }
+  
+  .result .highlight {
+    font-size: 1.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .savings-container {
+      padding: 1rem;
+    }
+  
+    .savings-info {
+      padding: 1rem;
+    }
+  
+    .calculator {
+      padding: 1rem;
+    }
+  }
+  

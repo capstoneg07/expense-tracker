@@ -12,27 +12,26 @@ const TransactionTable = ({
   transactions,
   setTransactions,
   setShowTransactionForm,
-  setTransactionFormState
+  setTransactionFormState,
 }) => {
   const [sortOption, setSortOption] = useState("date");
 
   if (loading) {
     return <div>Loading...</div>;
   }
+
   const handleEditTransaction = (transaction) => {
-    console.log("Editing transaction:", transaction); // Log the transaction data
     setTransactionFormState({
-      date: moment(transaction.date).toISOString(), // Ensure correct date format
+      date: moment(transaction.date).toISOString(),
       amount: transaction.amount,
       highLevelCategory: transaction.highLevelCategory,
       category: transaction.category,
       description: transaction.description,
-      _id: transaction._id
+      _id: transaction._id,
     });
     setShowTransactionForm(true);
   };
 
-  // create function that accepts the transactions's mongo _id value as param and deletes the transaction from the database
   const handleDeleteTransaction = async (e) => {
     e.preventDefault();
     const transactionId = e.currentTarget.id;
@@ -49,15 +48,12 @@ const TransactionTable = ({
       if (!data) {
         throw new Error("something went wrong!");
       }
-
-      console.log("done!");
     } catch (err) {
       console.error(err);
     }
     setTransactions(
-      transactions.filter((transactions) => transactions._id !== transactionId)
+      transactions.filter((transaction) => transaction._id !== transactionId)
     );
-    console.log(data);
   };
 
   const handleSortOptionChange = (event) => {
@@ -78,13 +74,6 @@ const TransactionTable = ({
     });
   } else if (sortOption === "amount") {
     sortedTransactions.sort((transactionA, transactionB) => {
-      console.log(`transactionA.amount: ${transactionA.amount}`);
-      console.log(`transactionB.amount: ${transactionB.amount}`);
-      console.log(
-        `transactionB.amount - transactionA.amount: ${
-          transactionB.amount - transactionA.amount
-        }`
-      );
       return transactionB.amount - transactionA.amount;
     });
   } else if (sortOption === "category") {
@@ -95,12 +84,12 @@ const TransactionTable = ({
 
   return (
     <div>
-      <div className="form-group sort-div d-flex">
-        <label htmlFor="sort-option-select" className="sort">
+      <div className="form-group sort-div d-flex justify-content-center align-items-center">
+        <label htmlFor="sort-option-select" className="sort mr-2">
           Sort By:
         </label>
         <select
-          className="form-control form-select"
+          className="form-control form-select w-auto"
           id="sort-option-select"
           value={sortOption}
           onChange={handleSortOptionChange}
@@ -120,7 +109,7 @@ const TransactionTable = ({
               <th scope="col">Category</th>
               <th scope="col">Amount</th>
               <th scope="col">Description</th>
-              <th scope="col">Delete</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -133,14 +122,14 @@ const TransactionTable = ({
                 <td>{transaction.description}</td>
                 <td>
                   <button
-                    className="btn"
+                    className="btn btn-edit"
                     id={transaction._id}
                     onClick={() => handleEditTransaction(transaction)}
                   >
                     <GoPencil />
                   </button>
                   <button
-                    className="btn"
+                    className="btn btn-delete"
                     id={transaction._id}
                     onClick={handleDeleteTransaction}
                   >

@@ -1,180 +1,89 @@
 :root {
-  --dollar-bill-green: #85bb65;
-  --blue: #7583a7;
-  --text-shadow: 2px 1px black;
+  --primary-color: #4a90e2;
+  --secondary-color: #50e3c2;
+  --background-color: #f4f6f8;
+  --text-color: #333;
+  --header-bg: #4a90e2;
+  --header-text-color: #fff;
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-#charts-title {
-  color: var(--dollar-bill-green);
-  text-shadow: var(--text-shadow);
+.analysis-container {
+  padding: 2rem;
+  background-color: var(--background-color);
+  min-height: 100vh;
+}
+
+.charts-title {
   text-align: center;
-  font-size: 4em;
-  margin: 30px;
+  color: var(--primary-color);
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
 }
 
-.monthly-spending-title {
-  color: black;
-  text-align: center;
-  font-size: 3em;
+.charts-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
-.dropdown_container {
-  display: block;
-  font-size: 1.5em;
-  text-align: center;
-  color: var(--blue);
-  margin-bottom: 1em;
-}
-
-.dropdown_label {
-  margin-right: 0.25em;
-}
-
-#dropdown {
-  font-size: 0.65em;
-  color: white;
-  background-color: var(--blue);
-  padding: 0.25em;
-  border: var(--dollar-bill-green) solid 2px;
-  border-radius: 10px;
+.chart-container {
+  flex: 1;
+  max-width: 800px;
+  margin: 1rem;
 }
 
 .card-chart {
-  min-width: 45vw;
-}
-
-.card {
-  background: white;
-  box-shadow: 3px 3px lightgray;
-  padding: 0;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  border-radius: 8px;
+  margin-bottom: 2rem;
 }
 
 .card-chart-header {
-  background: var(--dollar-bill-green);
+  background: var(--header-bg);
+  color: var(--header-text-color);
+  padding: 1rem;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
 }
 
 .card-chart-body {
-  background: rgb(238, 246, 248);
-}
-
-canvas {
-  width: 75% !important;
-  margin: auto !important;
+  padding: 1rem;
 }
 
 .chart {
-  margin-top: 0;
+  width: 100% !important;
+  max-width: 400px;
+  margin: auto;
 }
 
-.savings {
-  border: lightgray 3px solid;
-  margin: 0px 35px;
-  padding: 15px;
-  color: var(--dollar-bill-green);
-  background-color: rgb(238, 246, 248);
-  text-align: center;
-}
-
-.form-heading {
-  color: var(--dollar-bill-green);
-  text-shadow: var(--text-shadow);
-  font-size: 2em;
-  text-align: center;
-}
-
-.calculator-div {
-  background: lightgray;
-  margin: 15px 30px;
-  padding: 15px 0;
-}
-
-.calculator-form {
-  max-width: 200px;
-  text-align: center;
-  margin: 15px auto 15px auto;
-  color: black;
-}
-
-#result-div {
-  text-align: center;
-  font-size: 2em;
-  color: var(--blue);
-  margin-bottom: 50px;
-}
-
-.red-text {
-    color: red;
-}
-
-.green-text {
-    color: var(--dollar-bill-green);
-}
-
-.red-text {
-  color: red;
+.savings-container {
+  flex: 1;
+  max-width: 400px;
+  margin: 1rem;
 }
 
 .blue-text {
-  color: var(--blue);
+  color: var(#ffffff);
 }
 
-.calc-button {
-    background: var(--dollar-bill-green);
-    color: white;
+.red-text {
+  color: #FF4D4D;
 }
 
-#result {
-  text-align: center;
-  font-size: 1em;
-  color: red;
-  animation: blinker 2s step-start infinite;
-}
+@media (max-width: 768px) {
+  .charts-row {
+    flex-direction: column;
+    align-items: center;
+  }
 
-@keyframes blinker {
-  50% {
-    color: var(--blue);
+  .chart-container, .savings-container {
+    max-width: 100%;
+  }
+
+  .chart {
+    max-width: 100%;
   }
 }
-
-@media only screen and (min-width: 768px) and (max-width: 1024px) { /* iPad viewport */
-  .row {
-    margin: auto
-  }
-  
-  .card-chart {
-    width: 80vw;
-    height: 50vh; 
-    margin: 15px auto; 
-  }
-
-  .canvas {
-    width: 75vw;
-    height: 100vh;
-    margin: auto;
-  }
-}
-
-@media screen and (max-width: 767px) { /* iPad viewport */
-  
-  .card-chart {
-    margin: 15px auto !important; 
-    width: 90vw !important;
-
-  }
-
-  .card-body {
-    margin: 15px !important;
-  }
-  
-  canvas {
-    width: 100% !important;
-    flex: auto !important;
-  
-    margin: auto !important;
-  }
-  
-
-  
-}
-
-

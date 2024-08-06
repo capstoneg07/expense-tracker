@@ -8,8 +8,6 @@ import Savings from "../components/Savings";
 import Dropdown from "../components/Dropdown";
 import { formatAmount } from "../utils/helpers";
 
-// import { getHighLevel, getEssentialTransactions, getUser } from "../utils/api";
-
 export default function Analysis({ transactions, setTransactions }) {
   const [selectedOption, setSelectedOption] = useState('CurrentMTD');
 
@@ -29,72 +27,59 @@ export default function Analysis({ transactions, setTransactions }) {
   const handleOptionChange = (selectedOption) => {
     setSelectedOption(selectedOption);
   }
-  let selectedTransactions = [];
-  let selectedTimePeriod = "";
-  let selectedTotal;
 
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
   const priorMonth = currentMonth === 0 ? 11 : currentMonth - 1;
   const priorYear = currentYear - 1;
-  console.log("**********PRIOR YEAR: ", priorYear);
-  
-  // Filter transactions for current month and year
+
   const currentMonthTransactions = transactions.filter(transaction => {
     const transactionDate = new Date(parseInt(transaction.date));
     return transactionDate.getMonth() === currentMonth && transactionDate.getFullYear() === currentYear;
   });
-  
-  // Sum transaction amounts for current month to date
+
   const currentMonthToDateSum = currentMonthTransactions.reduce((total, transaction) => {
     return total + transaction.amount;
   }, 0);
-  
-  // Filter transactions for current year
+
   const currentYearTransactions = transactions.filter(transaction => {
     const transactionDate = new Date(parseInt(transaction.date));
     return transactionDate.getFullYear() === currentYear;
   });
-  
-  // Sum transaction amounts for current year to date
+
   const currentYearToDateSum = currentYearTransactions.reduce((total, transaction) => {
     return total + transaction.amount;
   }, 0);
-  
-  // Filter transactions for prior month and year
+
   const priorMonthTransactions = transactions.filter(transaction => {
     const transactionDate = new Date(parseInt(transaction.date));
     return transactionDate.getMonth() === priorMonth && transactionDate.getFullYear() === currentYear;
   });
-  
-  // Sum transaction amounts for prior month to date
+
   const priorMonthToDateSum = priorMonthTransactions.reduce((total, transaction) => {
     return total + transaction.amount;
   }, 0);
-  
-  // Filter transactions for prior year
+
   const priorYearTransactions = transactions.filter(transaction => {
     const transactionDate = new Date(parseInt(transaction.date));
     return transactionDate.getFullYear() === priorYear;
   });
-  
-  // Sum transaction amounts for prior year to date
+
   const priorYearToDateSum = priorYearTransactions.reduce((total, transaction) => {
     return total + transaction.amount;
   }, 0);
-  
-  console.log("CURRENT MTD SUM: ", currentMonth, ": ", currentMonthToDateSum);
-  console.log("CURRENT YTD SUM: ", currentYear, ": ", currentYearToDateSum);
-  console.log("PRIOR MTD SUM: ", priorMonth, ": ", priorMonthToDateSum);
-  console.log("PRIOR YTD SUM: ", priorYear, ": ", priorYearToDateSum);
-  
+
+  let selectedTransactions = [];
+  let selectedTimePeriod = "";
+  let selectedTotal;
+
   switch(selectedOption) {
     case "CurrentMTD":
       selectedTransactions = currentMonthTransactions;
       selectedTimePeriod = "Current Month to Date Spending";
       selectedTotal = currentMonthToDateSum;
-      break
+      break;
     case "CurrentYTD":
       selectedTransactions = currentYearTransactions;
       selectedTimePeriod = "Current Year to Date Spending";
@@ -116,7 +101,6 @@ export default function Analysis({ transactions, setTransactions }) {
       selectedTotal = currentMonthToDateSum;
   }
 
-  // const transactions = data?.me.transactions || [];
   const calcHighLevelCategory = (transactions) =>
     transactions.reduce((acc, cur) => {
       const { highLevelCategory, amount } = cur;
@@ -128,8 +112,6 @@ export default function Analysis({ transactions, setTransactions }) {
   let sumHighLevel = calcHighLevelCategory(selectedTransactions);
   let currentMonthHighLevel = calcHighLevelCategory(currentMonthTransactions);
 
-  console.log("Essential vs NonEssential: ", sumHighLevel);
-
   const calcCategory = (transactions) =>
     transactions.reduce((acc, cur) => {
       const { category, amount } = cur;
@@ -139,16 +121,9 @@ export default function Analysis({ transactions, setTransactions }) {
     }, []);
 
   let sumCategory = calcCategory(selectedTransactions);
-  console.log("by Category: ", sumCategory);
-  let sumAll = 0;
-  for (let i = 0; i < transactions.length; i++) {
-    sumAll += transactions[i].amount;
-  }
-  console.log("TOTAL SUM!! ", sumAll);
 
   const categoryData = {
     labels: [
-
       "Salary",
       "Tax Return",
       "Food-Groceries",
@@ -171,11 +146,8 @@ export default function Analysis({ transactions, setTransactions }) {
           sumCategory.find((x) => x.category === "Food-Groceries")?.amount || 0,
           sumCategory.find((x) => x.category === "Restaurant/Fast-Food")?.amount || 0,
           sumCategory.find((x) => x.category === "Transportation")?.amount || 0,
-          sumCategory.find(
-            (x) => x.category === "Utilities - Gas, Electric, Water"
-          )?.amount || 0,
-          sumCategory.find((x) => x.category === "Cable/Streaming Services")
-            ?.amount || 0,
+          sumCategory.find((x) => x.category === "Utilities - Gas, Electric, Water")?.amount || 0,
+          sumCategory.find((x) => x.category === "Cable/Streaming Services")?.amount || 0,
           sumCategory.find((x) => x.category === "Insurance")?.amount || 0,
           sumCategory.find((x) => x.category === "Medical/Health")?.amount || 0,
           sumCategory.find((x) => x.category === "Entertainment")?.amount || 0,
@@ -183,19 +155,7 @@ export default function Analysis({ transactions, setTransactions }) {
           sumCategory.find((x) => x.category === "Charity")?.amount || 0,
         ],
         backgroundColor: [
-          "cyan",
-          "black",
-          "coral",
-          "lightblue",
-          "pink",
-          "white",
-          "purple",
-          "yellow",
-          "lightgreen",
-          "blue",
-          "red",
-          "green",
-          "firebrick",
+          "#4a90e2", "#50e3c2", "#ff7f50", "#87cefa", "#ffa07a", "#ffffff", "#9370db", "#ffd700", "#90ee90", "#4169e1", "#ff4500", "#32cd32", "#b22222"
         ],
         hoverOffset: 4,
       },
@@ -211,10 +171,8 @@ export default function Analysis({ transactions, setTransactions }) {
       {
         label: "Spending by Income/Expense",
         data: [
-          sumHighLevel.find((x) => x.highLevelCategory === "Income")
-            ?.amount || 0,
-          sumHighLevel.find((x) => x.highLevelCategory === "Expense")
-            ?.amount || 0,
+          sumHighLevel.find((x) => x.highLevelCategory === "Income")?.amount || 0,
+          sumHighLevel.find((x) => x.highLevelCategory === "Expense")?.amount || 0,
         ],
         backgroundColor: ["#7583a7", "#FF4D4D"],
         hoverOffset: 4,
@@ -226,68 +184,59 @@ export default function Analysis({ transactions, setTransactions }) {
   };
 
   return (
-    <div>
-      <h1 id="charts-title">Your Spending Charts</h1>
+    <div className="analysis-container">
+      <h1 className="charts-title">Your Spending Charts</h1>
       <Dropdown onOptionChange={handleOptionChange} />
-      <div className="row d-flex justify-content-around">
-        <div className="col col-sm-12 col-lg-6" id="pie-chart-1">
-        <div className="row">
-            <div className="card card-chart ml-5">
-              <div className="card-header card-chart-header">
-                <h3 className="chart-title text-center text-light">{selectedTimePeriod}</h3>
-                <h4>Total: ${formatAmount(selectedTotal)}</h4>
-                <h3 className="chart-title text-center text-light">
-                  <span className="blue-text">Income</span> vs <span className="red-text">Expense</span>
-                </h3>
-              </div>
-              <div className="card-body card-chart-body m-5">
-                
-                <Pie
-                  className="chart chartjs-render-monitor chart-legend"
-                  data={highLevelCategoryData}
-                  options={{
-                    plugins: {
-                      legend: {
-                        position: "bottom",
-                        labels: { color: "black", wordWrap: true, maxWidth: 150 },
-                      },
+      <div className="charts-row">
+        <div className="chart-container">
+          <div className="card card-chart">
+            <div className="card-header card-chart-header">
+              <h3 className="chart-title">{selectedTimePeriod}</h3>
+              <h4>Total: ${formatAmount(selectedTotal)}</h4>
+              <h3 className="chart-title">
+                <span className="blue-text">Income</span> vs <span className="red-text">Expense</span>
+              </h3>
+            </div>
+            <div className="card-body card-chart-body">
+              <Pie
+                className="chart"
+                data={highLevelCategoryData}
+                options={{
+                  plugins: {
+                    legend: {
+                      position: "bottom",
+                      labels: { color: "black", wordWrap: true, maxWidth: 150 },
                     },
-                  }}
-                ></Pie>
-              </div>
+                  },
+                }}
+              />
             </div>
           </div>
-          { <div className="row">
-            <div className="card card-chart ml-5">
-              <div className="card-header card-chart-header">
-                <h3 className="chart-title text-center text-light">{selectedTimePeriod}</h3>
-                <h4>Total: ${formatAmount(selectedTotal)}</h4>
-                <h4 className="chart-title text-centermb-2 text-light">
-                  by Category
-                </h4>
-              </div>
-              <div className="card-body card-chart-body m-5">
-                <Pie
-                  className="chart chartjs-render-monitor chart-legend"
-                  data={categoryData}
-                  options={{
-                    plugins: {
-                      legend: {
-                        position: "bottom",
-                        labels: { color: "black", wordWrap: true, maxWidth: 150, fontSize: 10 },
-                      },
-                    },
-                  }}
-                ></Pie>
-              </div>
+          <div className="card card-chart">
+            <div className="card-header card-chart-header">
+              <h3 className="chart-title">{selectedTimePeriod}</h3>
+              <h4>Total: ${formatAmount(selectedTotal)}</h4>
+              <h4 className="chart-title">by Category</h4>
             </div>
-          </div> }
-          
+            <div className="card-body card-chart-body">
+              <Pie
+                className="chart"
+                data={categoryData}
+                options={{
+                  plugins: {
+                    legend: {
+                      position: "bottom",
+                      labels: { color: "black", wordWrap: true, maxWidth: 150, fontSize: 10 },
+                    },
+                  },
+                }}
+              />
+            </div>
+          </div>
         </div>
-        { <div className="col col-sm-12 col-lg-6 mt-5">
+        <div className="savings-container">
           <Savings currentMonthHighLevel={currentMonthHighLevel} />
-        </div> }
-        <div>{/* <TransactionTable/> */}</div>
+        </div>
       </div>
     </div>
   );

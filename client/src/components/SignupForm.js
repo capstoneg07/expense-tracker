@@ -6,11 +6,8 @@ import { useMutation } from '@apollo/client';
 // import Auth from '../utils/auth';
 
 const SignupForm = () => {
-  // set initial form state
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
-  // set state for form validation
   const [validated] = useState(false);
-  // set state for alert
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [infoMessage, setInfoMessage] = useState('');
@@ -25,7 +22,6 @@ const SignupForm = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    // check if form has everything (as per react-bootstrap docs)
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -41,14 +37,12 @@ const SignupForm = () => {
         throw new Error('something went wrong!');
       }
       setInfoMessage('Sign up successful! Please check your email for verification.');
-      
-      // navigate('/verify-email/:token');
+
       setUserFormData({
         username: '',
         email: '',
         password: '',
       });
-      // Auth.login(data.addUser.token);
     } catch (err) {
       console.error(err);
       if (err.message.includes("Username already used")) {
@@ -60,19 +54,12 @@ const SignupForm = () => {
       }
       setShowAlert(true);
     }
-
-    // setUserFormData({
-    //   username: '',
-    //   email: '',
-    //   password: '',
-    // });
   };
 
   return (
-    <>
-      {/* This is needed for the validation functionality above */}
-      <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
-        {/* show alert if server response is bad */}
+    <div className="signup-container">
+      <h1 className="signup-title">Sign Up</h1>
+      <Form noValidate validated={validated} onSubmit={handleFormSubmit} className="signup-form">
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
           {alertMessage}
         </Alert>
@@ -122,11 +109,12 @@ const SignupForm = () => {
         <Button
           disabled={!(userFormData.username && userFormData.email && userFormData.password)}
           type='submit'
-          variant='success'>
+          variant='success'
+          className='signup-button'>
           Submit
         </Button>
       </Form>
-    </>
+    </div>
   );
 };
 

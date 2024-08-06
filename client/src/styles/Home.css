@@ -1,212 +1,104 @@
 :root {
-  --dollar-bill-green: #85bb65; 
-  --text-shadow: 2px 1px black;
+  --primary-color: #4a90e2;
+  --secondary-color: #50e3c2;
+  --background-color: #f4f6f8;
+  --text-color: #333;
+  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 body {
-  font-style: "Montserrat, non-serif";
-  background: white; 
-  align-items: center;
+  font-family: "Montserrat", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
 }
 
 .home-body {
-  position: center;
-  font-style: "Montserrat, non-serif";
-  background: white;  
-  font-weight: 900;
-  background-size: cover;
-  background-position: center;
-  width: 100%;
-  min-height: 100vh;
-  color: rgb(25, 43, 57);
-  padding-right: 20px;
-  margin-bottom: -50px;
+  padding: 2rem;
 }
 
-.navbar {
-  z-index: 999;
-  background: var(--dollar-bill-green);
-}
-
-.nav-link {
-  color: var(--dollar-bill-green);
-}
-
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
-  color: #fff;
-  background-color: var(--dollar-bill-green);
-}
-
-.login-signup-button, .forgot-password-button {
-  background-color: var(--dollar-bill-green) !important;
-  border: none;
-}
-
-.forgot-password-button {
-  margin-left: auto;
-}
-
-.form-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.home-body h1 {
-  margin-top: 25px;
-  font-style: "Montserrat, non-serif";
-  font-weight: 900;
-  font-size: 4em;
-  color: var(--dollar-bill-green);
-}
-
-.home-body h6 {
-  font-size: 1.75em;
-  font-weight: 500;
-  max-width: 1000px;
-  max-height: 600px;
-  padding: 15px;
-  margin-top: 15px;
-  color: #fff;
-  animation: slideUp 1s ease-in-out;
-  background-color: #3c4344;
-  border-radius: 10px;
-  box-shadow: white 5px 5px 15px;
-  line-height: 1.5em;
-}
-
-.chart-div {
-  text-align: center;
-  margin: 15px 0px 15px 15px;
-}
-
-.chart-image {
-  text-align: center;
-  width: 30%;
-  margin: auto;
-  border-radius: 10px;
-  box-shadow: white 5px 5px 15px;
-  animation: slideUp 1s ease-in-out;
-}
-
-.col-md-12 {
-  background-color: transparent;
-}
-
-.row {
-  background-color: transparent;
-}
-
-.mt-5 {
-  text-align: center;
-  align-items: center;
-}
-
-@keyframes textclip {
-  to {
-    background-position: 200% center;
-  }
-}
-
-@keyframes slideRight {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
-}
-
-@keyframes slideLeft {
-  0% {
-    transform: translateX(300%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
-}
-
-@keyframes slideUp {
-  0% {
-    transform: translateY(300%);
-  }
-  100% {
-    transform: translateY(0%);
-  }
-}
-
-.feature-title {
-  background-color: lightgray;
-  border-radius: 5px;
-  margin-left: 25px;
-  color: black;
-  box-shadow: 3px 3px black;
-  animation: slideRight 500ms;
-}
-
-.feature-list {
-  background-color: var(--dollar-bill-green);
-  border-radius: 5px;
-  margin-left: 25px;
-  box-shadow: 3px 3px black;
-  color: white;
-  animation: slideRight 500ms;
+.home-title {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
 }
 
 .home-subtitle {
-  font-size: 1.25em;
-}
-
-.budget-text {
-  font-size: 1.25em;
-}
-
-.budget-image {
-  animation: slideLeft 500ms;
-  border-radius: 10px;
-}
-
-.testimonial {
-  background: var(--dollar-bill-green);
-  color: white;
-  border-radius: 5px;
-  box-shadow: slategray 3px 3px;
-  animation: slideUp 500ms;
-}
-
-.testimonials-title {
-  color: var(--dollar-bill-green);
-  text-shadow: var(--text-shadow);
+  font-size: 1.25rem;
+  color: var(--text-color);
+  margin-bottom: 2rem;
 }
 
 .card-features {
-  min-width: 35vw;
-  margin-bottom: 100px;
+  background: white;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-features:hover {
+  transform: translateY(-10px);
 }
 
 .card-header-features {
-  background: var(--dollar-bill-green);
+  background: var(--primary-color);
+  color: white;
+  font-size: 1.25rem;
+  text-align: center;
+  padding: 0.75rem 0;
+}
+
+.card-body img {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+
+.testimonials-title {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
 }
 
 .card-testimonials {
-  background: var(--dollar-bill-green);
-  color: white;
+  background: white;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: var(--card-shadow);
+  padding: 1.5rem;
+  transition: transform 0.3s ease-in-out;
 }
 
-.footer {
-  background-color: var(--dollar-bill-green);
+.card-testimonials:hover {
+  transform: translateY(-10px);
 }
 
-.footer-text {
-  font-size: 1em;
+.card-text {
+  font-size: 1rem;
+  color: var(--text-color);
 }
 
-@media screen and (max-width: 400px) {
-  .card-text {
-    font-size: 0.8em;
+@media (max-width: 576px) {
+  .home-title {
+    font-size: 2.5rem;
   }
 
-  table {
-    font-size: 0.75em;
+  .home-subtitle {
+    font-size: 1rem;
+  }
+
+  .card-header-features {
+    font-size: 1rem;
+  }
+
+  .testimonials-title {
+    font-size: 1.5rem;
+  }
+
+  .card-text {
+    font-size: 0.875rem;
   }
 }
