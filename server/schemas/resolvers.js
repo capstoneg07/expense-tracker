@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 
 
 const sendVerificationEmail = (email, token) => {
-  const url = `http://localhost:3000/verify-email/${token}`;
+  const url = `https://expense-tracker-frontend-lq96.onrender.com//verify-email/${token}`;
   transporter.sendMail({
     to: email,
     subject: 'Verify your email',
@@ -136,7 +136,7 @@ const resolvers = {
 
       await user.save();
 
-      const resetUrl = `http://localhost:3000/#/reset-password/${resetToken}`;
+      const resetUrl = `https://expense-tracker-frontend-lq96.onrender.com//#/reset-password/${resetToken}`;
 
       transporter.sendMail({
         to: user.email,
