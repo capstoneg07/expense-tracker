@@ -21,7 +21,7 @@ import ForgotPassword from './components/ForgotPassword';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const httpLink = createHttpLink({
-  uri: "/graphql",
+  uri: "https://expense-tracker-qd2v.onrender.com/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
