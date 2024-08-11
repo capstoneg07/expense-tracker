@@ -136,7 +136,7 @@ const resolvers = {
 
       await user.save();
 
-      const resetUrl = `https://expense-tracker-frontend-lq96.onrender.com//#/reset-password/${resetToken}`;
+      const resetUrl = `https://expense-tracker-frontend-lq96.onrender.com/#/reset-password/${resetToken}`;
 
       transporter.sendMail({
         to: user.email,
