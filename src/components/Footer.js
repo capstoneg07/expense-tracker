@@ -58,7 +58,7 @@ const Footer = () => {
             </SocialIcons>
           </div>
           <div className="col-md-4">
-            <ContactInfo>Contact us: capstone07@gmail.com</ContactInfo>
+            <ContactInfo>Contact us: capstoneg07@gmail.com</ContactInfo>
           </div>
         </div>
         <FooterText>
