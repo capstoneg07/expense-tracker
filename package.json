@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "https://expense-tracker-qd2v.onrender.com",
   "dependencies": {
     "@apollo/client": "^3.7.7",
     "@testing-library/jest-dom": "^5.16.5",

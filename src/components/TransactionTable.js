@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "../styles/Transactions.css";
 import moment from "moment";
 import { formatDate, formatAmountDecimal } from "../utils/helpers.js";
-import Auth from "../utils/auth";
+import Auth from "../utils/auth.js";
 import { GoPencil , GoTrash } from "react-icons/go";
 
 const TransactionTable = ({
