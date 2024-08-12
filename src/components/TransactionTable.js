@@ -3,7 +3,9 @@ import "../styles/Transactions.css";
 import moment from "moment";
 import { formatDate, formatAmountDecimal } from "../utils/helpers.js";
 import Auth from "../utils/auth.js";
-import { GoPencil , GoTrash } from "react-icons/go";
+import { GoPencil , GoTrash, GoDownload } from "react-icons/go";
+import jsPDF from "jspdf";
+import 'jspdf-autotable';
 
 const TransactionTable = ({
   data,
@@ -60,6 +62,28 @@ const TransactionTable = ({
     setSortOption(event.target.value);
   };
 
+  const generatePDF = () => {
+    const doc = new jsPDF();
+  
+    doc.setFontSize(16);
+    doc.text("WellCome to your personalized expense Tracker app ",30,20)
+    doc.text("Transaction Report", 14, 30);
+    doc.setFontSize(12);
+    doc.text(`User: ${Auth.getProfile().data.username}`, 14, 40); // Example: Username from Auth
+    doc.text(`Email: ${Auth.getProfile().data.email}`, 14, 45); // Example: Email from Auth
+    doc.text(`Date: ${moment().format('MMMM D, YYYY')}`, 14, 50);
+    const tableColumn = ["Date", "Essential?", "Category", "Amount", "Description"];
+    const tableRows = transactions.map(transaction => [
+      formatDate(transaction.date),
+      transaction.highLevelCategory,
+      transaction.category,
+      formatAmountDecimal(transaction.amount),
+      transaction.description
+    ]);
+    doc.autoTable(tableColumn, tableRows, { startY: 60 });
+    doc.save("transactions-report.pdf");
+  };
+  
   if (!transactions.length) {
     return <h3>No Transactions Recorded Yet</h3>;
   }
@@ -98,6 +122,9 @@ const TransactionTable = ({
           <option value="amount">Amount</option>
           <option value="category">Category</option>
         </select>
+        <button className="btn btn-primary ml-3" onClick={generatePDF}>
+          <GoDownload  /> Generate Report
+        </button>
       </div>
 
       <div className="table-responsive">
