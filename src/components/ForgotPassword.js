@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [showAlert, setShowAlert] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [forgotPassword] = useMutation(FORGOT_PASSWORD);
   const navigate = useNavigate();
 
@@ -18,7 +19,8 @@ const ForgotPassword = () => {
     event.preventDefault();
     try {
       await forgotPassword({ variables: { email } });
-      navigate(`/reset-password/${email}`);
+      setShowSuccess(true);
+      setEmail('');
     } catch (err) {
       console.error(err);
       setShowAlert(true);
@@ -32,6 +34,11 @@ const ForgotPassword = () => {
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
           Error sending reset email. Please try again.
         </Alert>
+        {showSuccess && (
+              <Alert variant='success'>
+                A reset password link will be sent to your email address if it is registered.
+              </Alert>
+            )}
         <Form.Group>
           <Form.Label htmlFor='email'>Email</Form.Label>
           <Form.Control
