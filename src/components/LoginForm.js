@@ -12,6 +12,7 @@ const LoginForm = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [login] = useMutation(LOGIN_USER);
   const [forgotPassword] = useMutation(FORGOT_PASSWORD);
+  const [showForm, setShowForm] = useState(true); 
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
@@ -44,9 +45,12 @@ const LoginForm = () => {
   };
 
   const handleForgotPassword = () => {
+    setShowForm(false);
     navigate('/forgot-password');
   };
-
+if (!showForm) {
+    return null;
+  }
   return (
     <div className="login-container">
       <h1 className="login-title">Login</h1>
