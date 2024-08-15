@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 
 
 const sendVerificationEmail = (email, token) => {
-  const url = `https://expense-tracker-frontend-lq96.onrender.com/verify-email/${token}`;
+  const url = `https://expense-tracker-frontend-lq96.onrender.com`;
   transporter.sendMail({
     to: email,
     subject: 'Verify your email',
