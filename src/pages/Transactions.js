@@ -209,19 +209,19 @@ const Transactions = ({ transactions, setTransactions }) => {
 
       <SpendingCardContainer>
         <SpendingCard>
-          <SpendingTitle>Spending for {currentDate}:</SpendingTitle>
+          <SpendingTitle>Transaction for {currentDate}:</SpendingTitle>
           <SpendingAmount>{todaySpending}</SpendingAmount>
         </SpendingCard>
 
         <SpendingCard>
           <SpendingTitle>
-            Expenditure for Current Week ({startDate} - {endDate}):
+            Transaction for Current Week ({startDate} - {endDate}):
           </SpendingTitle>
           <SpendingAmount>{currentWeekSpending}</SpendingAmount>
         </SpendingCard>
 
         <SpendingCard>
-          <SpendingTitle>Expenditure for Current Month:</SpendingTitle>
+          <SpendingTitle>Transaction for Current Month:</SpendingTitle>
           <SpendingAmount>{currentMonthSpending}</SpendingAmount>
         </SpendingCard>
       </SpendingCardContainer>
